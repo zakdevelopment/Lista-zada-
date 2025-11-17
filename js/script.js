@@ -15,15 +15,40 @@
 		for (const task of tasks) {
 			htmlString +=
 				`
-            <li>
-            ${task.content}
-            </li>
-            `;
+        <li 
+				${task.done ? "style=\"text-decoration: line-through\"" : ""}>
+				${task.content}
+				</li>
+		`;
 		}
 		document.querySelector(".js-task").innerHTML = htmlString;
-	}
+	};
+
+	const addNewTask = (newTaskContent) => {
+		tasks.push(
+			{
+				content: newTaskContent,
+			});
+		render();
+	};
+
+	const onFormSubmit = (event) => {
+		event.preventDefault();
+
+		const newTaskContent = document.querySelector(".js-newTask").value.trim();
+		console.log(newTaskContent);
+
+		if (newTaskContent === "") {
+			return;
+		}
+
+		addNewTask(newTaskContent);
+	};
 	const init = () => {
 		render();
+
+		const form = document.querySelector(".js-form");
+		form.addEventListener("submit", onFormSubmit);
 	};
 
 	init();
